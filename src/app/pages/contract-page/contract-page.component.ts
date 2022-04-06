@@ -42,23 +42,25 @@ export class ContractPageComponent implements OnInit {
 
     this.contractEntry = this.contractService.getContract(id);
 
-    if (this.contractEntry) {
-      this.ethereum
-        .request({ method: 'eth_accounts' })
-        .then((accounts: string[]) => {
-          if (accounts[0]) {
-            this.account = accounts[0];
-            this.contract = this.contractService.loadContract(
-              this.contractEntry as Contract
-            );
-          }
-        })
-        .catch((error: any) => {});
-    }
+    if (this.ethereum) {
+      if (this.contractEntry) {
+        this.ethereum
+          .request({ method: 'eth_accounts' })
+          .then((accounts: string[]) => {
+            if (accounts[0]) {
+              this.account = accounts[0];
+              this.contract = this.contractService.loadContract(
+                this.contractEntry as Contract
+              );
+            }
+          })
+          .catch((error: any) => {});
+      }
 
-    this.ethereum.on('accountsChanged', (accounts: string[]) => {
-      window.location.reload();
-    });
+      this.ethereum.on('accountsChanged', (accounts: string[]) => {
+        window.location.reload();
+      });
+    }
   }
 
   ngOnInit(): void {}
