@@ -1,0 +1,47 @@
+<mat-card>
+  <div class="flex align-items-center mb">
+    <mat-card-title class="card-title">All Contracts</mat-card-title>
+    <span class="flex-spacer"></span>
+    <button mat-flat-button color="primary" (click)="openContractDialog()">
+      <mat-icon>add</mat-icon>
+      <span>New Contract</span>
+    </button>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <mat-nav-list
+      *ngIf="contractService.contracts.length; else noContractsAlert"
+    >
+      <mat-list-item
+        *ngFor="let contract of contractService.contracts"
+        class="contract-item"
+      >
+        <a matLine [routerLink]="['/contract', contract.id]">
+          <span> {{ contract.name }} </span>
+          <div>
+            <small class="text-muted">{{ contract.address }}</small>
+          </div>
+        </a>
+        <button mat-icon-button [matMenuTriggerFor]="contractMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #contractMenu="matMenu">
+          <button mat-menu-item (click)="openContractDialog(contract)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-menu-item (click)="openDeleteDialog(contract)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-menu>
+      </mat-list-item>
+    </mat-nav-list>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #noContractsAlert>
+  <div class="pt">
+    <app-message>No contracts.</app-message>
+  </div>
+</ng-template>

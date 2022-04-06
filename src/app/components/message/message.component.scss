@@ -1,0 +1,16 @@
+.message {
+  border: 1px solid #fff;
+  padding: 1rem;
+  word-wrap: break-word;
+
+  &.error {
+    border-color:#f44336 !important;
+    color: #f44336 !important;
+  }
+
+  &.info {
+    border-color:#92afff !important;
+    color: #92afff !important;
+  }
+
+}

@@ -1,0 +1,80 @@
+<mat-card>
+  <div class="flex align-items-center mb">
+    <mat-card-title class="card-title">Contract Name</mat-card-title>
+    <span class="flex-spacer"></span>
+    <a mat-button routerLink="/">
+      <mat-icon>chevron_left</mat-icon>
+      <span>Back</span>
+    </a>
+  </div>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <div *ngIf="contractEntry; else contractNotFound">
+      <div *ngIf="ethereum; else installMetamask" class="pt">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Select a function</mat-label>
+          <mat-select
+            [(value)]="selectedFunction"
+            (selectionChange)="onFunctionChange()"
+          >
+            <mat-option value="">-</mat-option>
+            <mat-option
+              *ngFor="let abi of contractEntry.abi"
+              [value]="abi.name"
+            >
+              {{ abi.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="error" class="mb">
+          <app-message type="error">
+            {{ error.message }}
+          </app-message>
+        </div>
+        <div *ngIf="response" class="mb">
+          <app-message type="info">
+            {{ response }}
+          </app-message>
+        </div>
+        <form
+          *ngIf="abi && abiForm"
+          [formGroup]="abiForm"
+          (submit)="onSubmit()"
+        >
+          <mat-form-field *ngFor="let input of abi.inputs" class="full-width">
+            <mat-label>{{ input.name }}</mat-label>
+            <input type="text" matInput [formControlName]="input.name" />
+          </mat-form-field>
+          <mat-form-field
+            *ngIf="abi.stateMutability === 'payable'"
+            class="full-width"
+          >
+            <mat-label>value</mat-label>
+            <input type="text" matInput formControlName="ethValue" required />
+          </mat-form-field>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            class="full-width"
+            [disabled]="executing"
+          >
+            Execute
+          </button>
+        </form>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #contractNotFound>
+  <div class="pt">
+    <app-message>Contract does not exist.</app-message>
+  </div>
+</ng-template>
+
+<ng-template #installMetamask>
+  <div class="pt">
+    <app-message>Metamask not installed.</app-message>
+  </div>
+</ng-template>

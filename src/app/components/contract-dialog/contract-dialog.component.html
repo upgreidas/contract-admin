@@ -1,0 +1,56 @@
+<h1 *ngIf="data.contract" mat-dialog-title>Edit Contract</h1>
+<h1 *ngIf="!data.contract" mat-dialog-title>New Contract</h1>
+<div mat-dialog-content>
+  <form
+    [formGroup]="contractForm"
+    id="contract-form"
+    (ngSubmit)="saveContract()"
+  >
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Name</mat-label>
+      <input
+        type="text"
+        matInput
+        formControlName="name"
+        cdkFocusInitial
+        required
+      />
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Address</mat-label>
+      <input type="text" matInput formControlName="address" required />
+    </mat-form-field>
+    <div class="flex align-items-center">
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="triggerFileInput()"
+      >
+        Choose File
+      </button>
+      <input
+        hidden
+        (change)="onFileSelected($event)"
+        #fileInput
+        type="file"
+        accept=".json"
+      />
+      <span *ngIf="hasError('abi', 'required')" class="text-error ml">
+        Select fragment file.
+      </span>
+      <span *ngIf="hasError('abi', 'invalidFormat')" class="text-error ml">
+        Invalid file format.
+      </span>
+      <span *ngIf="fragmentFile" class="ml">
+        {{ fragmentFile.name }}
+      </span>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" type="submit" form="contract-form">
+    Save
+  </button>
+</div>

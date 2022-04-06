@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Delete Contract</h1>
+<div mat-dialog-content>
+  Are you sure you want to delete contract <b>{{ data.contract.name }}</b
+  >?
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="true">Delete</button>
+</div>
