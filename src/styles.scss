@@ -30,8 +30,6 @@ $angular-dark-theme: mat.define-dark-theme(
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($angular-dark-theme);
-@include mat.core-theme($angular-dark-theme);
-@include mat.button-theme($angular-dark-theme);
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
