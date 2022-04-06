@@ -27,7 +27,7 @@
         color="primary"
         (click)="triggerFileInput()"
       >
-        Choose File
+        Artifact file
       </button>
       <input
         hidden
@@ -37,13 +37,13 @@
         accept=".json"
       />
       <span *ngIf="hasError('abi', 'required')" class="text-error ml">
-        Select fragment file.
+        Select artifact file.
       </span>
       <span *ngIf="hasError('abi', 'invalidFormat')" class="text-error ml">
         Invalid file format.
       </span>
-      <span *ngIf="fragmentFile" class="ml">
-        {{ fragmentFile.name }}
+      <span *ngIf="artifactFile" class="ml">
+        {{ artifactFile.name }}
       </span>
     </div>
   </form>

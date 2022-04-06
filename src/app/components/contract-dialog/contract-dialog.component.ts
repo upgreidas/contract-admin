@@ -26,7 +26,7 @@ export class ContractDialogComponent implements OnInit {
 
   submitted = false;
 
-  fragmentFile?: File;
+  artifactFile?: File;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -86,7 +86,7 @@ export class ContractDialogComponent implements OnInit {
         abi = abi.filter((n: ABI) => n.type === 'function');
 
         if (abi) {
-          this.fragmentFile = files[0];
+          this.artifactFile = files[0];
           this.contractForm.patchValue({ abi });
           this.contractForm.get('abi')?.setErrors(null);
         } else {
@@ -102,7 +102,7 @@ export class ContractDialogComponent implements OnInit {
   }
 
   clearAbi() {
-    this.fragmentFile = undefined;
+    this.artifactFile = undefined;
     this.contractForm.patchValue({ abi: undefined });
   }
 
