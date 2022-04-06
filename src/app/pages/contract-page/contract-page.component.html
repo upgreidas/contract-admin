@@ -1,6 +1,8 @@
 <mat-card>
   <div class="flex align-items-center mb">
-    <mat-card-title class="card-title">Contract Name</mat-card-title>
+    <mat-card-title class="card-title">{{
+      contractEntry?.name
+    }}</mat-card-title>
     <span class="flex-spacer"></span>
     <a mat-button routerLink="/">
       <mat-icon>chevron_left</mat-icon>
