@@ -34,6 +34,11 @@ export class ContractPageComponent implements OnInit {
 
   executing = false;
 
+  accountsChangedHandler = (accounts: string[]) => {
+    console.log('rel');
+    window.location.reload();
+  };
+
   constructor(
     private contractService: ContractService,
     private activatedRoute: ActivatedRoute
@@ -57,13 +62,18 @@ export class ContractPageComponent implements OnInit {
           .catch((error: any) => {});
       }
 
-      this.ethereum.on('accountsChanged', (accounts: string[]) => {
-        window.location.reload();
-      });
+      this.ethereum.on('accountsChanged', this.accountsChangedHandler);
     }
   }
 
   ngOnInit(): void {}
+
+  ngOnDestroy() {
+    this.ethereum.removeListener(
+      'accountsChanged',
+      this.accountsChangedHandler
+    );
+  }
 
   connectWallet() {
     this.ethereum
