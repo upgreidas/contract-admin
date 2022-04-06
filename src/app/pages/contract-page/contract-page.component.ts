@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ethers } from 'ethers';
@@ -24,6 +24,8 @@ export class ContractPageComponent implements OnInit {
 
   ethereum? = window.ethereum;
 
+  account?: string;
+
   contract?: ethers.Contract;
 
   error?: any;
@@ -41,11 +43,32 @@ export class ContractPageComponent implements OnInit {
     this.contractEntry = this.contractService.getContract(id);
 
     if (this.contractEntry) {
-      this.contract = this.contractService.loadContract(this.contractEntry);
+      this.ethereum
+        .request({ method: 'eth_accounts' })
+        .then((accounts: string[]) => {
+          if (accounts[0]) {
+            this.account = accounts[0];
+            this.contract = this.contractService.loadContract(
+              this.contractEntry as Contract
+            );
+          }
+        })
+        .catch((error: any) => {});
     }
+
+    this.ethereum.on('accountsChanged', (accounts: string[]) => {
+      window.location.reload();
+    });
   }
 
   ngOnInit(): void {}
+
+  connectWallet() {
+    this.ethereum
+      .request({ method: 'eth_requestAccounts' })
+      .then((accounts: string[]) => {})
+      .catch((error: any) => {});
+  }
 
   onFunctionChange() {
     this.error = undefined;
